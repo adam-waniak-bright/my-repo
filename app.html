@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Podróży: Dubrownik dla Dwojga</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Mediterranean Neutrals -->
+    <!-- Application Structure Plan: A single-page application with a tab-based daily navigation system. This structure allows users to easily access each day's itinerary without scrolling through a long document. The main interaction is selecting a day, which dynamically displays that day's themed plan (e.g., "Old Town," "Island Hopping"). This non-linear access is more user-friendly than a static list. A pacing chart provides a quick visual summary of the trip's intensity. The design prioritizes clarity and actionable information, directly addressing the user's need for a practical, well-organized plan. -->
+    <!-- Visualization & Content Choices: Report Info: 11-day trip plan. Goal: Provide a quick overview of trip intensity. Viz: Bar Chart (Chart.js). Interaction: None, it's a summary view. Justification: A simple bar chart effectively communicates the rhythm of the trip, showing which days are for relaxation and which are for intensive touring. Report Info: Daily activities. Goal: Organize and detail each day. Presentation: Themed cards with structured text (Morning/Afternoon/Evening). Interaction: Revealed by clicking the day's tab. Justification: This structured text format is easy to scan and contains all necessary practical details (transport, tips), making the plan actionable and realistic, as requested by the user. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfaf6;
+            color: #4a4a4a;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #e57373;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-button:hover:not(.active) {
+            background-color: #fbe9e7;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .bg-sun { background-color: #fff3e0; color: #ff9800; }
+        .bg-boat { background-color: #e3f2fd; color: #2196f3; }
+        .bg-food { background-color: #e8f5e9; color: #4caf50; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Wakacje w Dubrowniku</h1>
+            <p class="text-lg text-gray-600">Interaktywny plan podróży | 25 września - 5 października</p>
+        </header>
+
+        <main>
+            <section id="trip-overview" class="mb-8 card p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Intensywność Waszej Podróży</h2>
+                <p class="text-center text-gray-600 mb-4">Wykres przedstawia szacowany poziom aktywności każdego dnia, od relaksu po całodniowe wycieczki. Pomoże Wam to zaplanować energię na całą podróż.</p>
+                <div class="chart-container">
+                    <canvas id="pacingChart"></canvas>
+                </div>
+            </section>
+
+            <section id="itinerary" class="card p-4 sm:p-6">
+                <nav id="day-navigation" class="flex flex-wrap justify-center gap-2 mb-6">
+                </nav>
+                <div id="day-content" class="min-h-[400px]">
+                </div>
+            </section>
+
+            <section id="tips" class="mt-8 card p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Praktyczne Wskazówki</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-bold text-lg mb-2 text-rose-500">Transport Publiczny</h3>
+                        <p class="text-gray-700">Głównym węzłem komunikacyjnym w pobliżu Starego Miasta jest Brama Pile. Stąd odjeżdża większość autobusów. Rozważcie zakup "Dubrovnik Pass", który oprócz wejść do atrakcji (w tym mury miejskie) obejmuje również transport publiczny.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2 text-rose-500">Wycieczki Zorganizowane</h3>
+                        <p class="text-gray-700">Wycieczki do Czarnogóry czy Mostaru najlepiej rezerwować online z wyprzedzeniem lub w jednym z licznych biur podróży w Dubrowniku. Porównajcie oferty, ponieważ ceny i programy mogą się różnić. To najwygodniejszy sposób, by uniknąć problemów z przekraczaniem granicy i logistyką.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2 text-rose-500">Waluta i Płatności</h3>
+                        <p class="text-gray-700">Walutą w Chorwacji jest Euro (€). Płatność kartą jest powszechna w restauracjach i większych sklepach, ale warto mieć przy sobie trochę gotówki na mniejsze wydatki, np. na targu czy w małych kawiarniach.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2 text-rose-500">Jedzenie i Picie</h3>
+                        <p class="text-gray-700">Koniecznie spróbujcie świeżych owoców morza. W bocznych uliczkach Starego Miasta znajdziecie wiele urokliwych konob (tradycyjnych restauracji) z bardziej przystępnymi cenami niż na głównej ulicy Stradun.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const tripData = [
+            {
+                day: 1,
+                date: "25 Września (Środa)",
+                title: "Przyjazd i Magia Starego Miasta",
+                pacing: 2,
+                activities: [
+                    { time: "Popołudnie", icon: "✈️", theme: "bg-boat", title: "Przylot i Transfer", description: "Przylot ok. 14:00. Najwygodniejszy transport do centrum to autobus wahadłowy (shuttle bus), który zatrzymuje się przy Bramie Pile. Podróż trwa ok. 30-40 minut. Po zakwaterowaniu czas na krótki odpoczynek." },
+                    { time: "Późne Popołudnie", icon: "🚶", theme: "bg-sun", title: "Pierwszy Spacer po Stradun", description: "Spacer główną, lśniącą ulicą Starego Miasta – Stradun. Poczujcie atmosferę tego miejsca, zobaczcie Wielką Fontannę Onufrego i Kolumnę Rolanda." },
+                    { time: "Wieczór", icon: "🌅", theme: "bg-food", title: "Kolacja z Widokiem", description: "Kolacja w jednej z restauracji w porcie lub na placu Gundulićeva poljana. To idealny moment na delektowanie się chorwacką kuchnią i planowanie kolejnych dni." }
+                ]
+            },
+            {
+                day: 2,
+                date: "26 Września (Czwartek)",
+                title: "Potęga Murów i Sekrety Pałaców",
+                pacing: 4,
+                activities: [
+                    { time: "Rano", icon: "🧱", theme: "bg-sun", title: "Spacer po Murach Miejskich", description: "Największa atrakcja Dubrownika. Wejdźcie na mury wcześnie rano, by uniknąć tłumów i upału. Spacer (ok. 2 km) zajmie Wam ok. 1.5-2 godziny i zaoferuje niezapomniane widoki na miasto i morze." },
+                    { time: "Południe", icon: "🏛️", theme: "bg-boat", title: "Pałac Rektorów i Katedra", description: "Zwiedzanie Pałacu Rektorów, dawnej siedziby władz Republiki Dubrownickiej. Tuż obok znajduje się Katedra Wniebowzięcia Najświętszej Maryi Panny ze skarbcem." },
+                    { time: "Wieczór", icon: "🛶", theme: "bg-food", title: "Zachód Słońca z Kajaka", description: "Rozważcie wycieczkę kajakową wokół murów o zachodzie słońca. To magiczne doświadczenie i zupełnie inna perspektywa na miasto. Wycieczki startują najczęściej z małej plaży przy Bramie Pile." }
+                ]
+            },
+            {
+                day: 3,
+                date: "27 Września (Piątek)",
+                title: "Zielona Oaza - Wyspa Lokrum",
+                pacing: 3,
+                activities: [
+                    { time: "Rano", icon: "🚢", theme: "bg-boat", title: "Rejs na Wyspę Lokrum", description: "Krótki (15 min) rejs statkiem z portu na Starym Mieście. Lokrum to rezerwat przyrody, idealne miejsce na ucieczkę od zgiełku miasta." },
+                    { time: "Cały Dzień", icon: "🦚", theme: "bg-sun", title: "Odkrywanie Lokrum", description: "Spacerujcie po ogrodzie botanicznym, spotkajcie wolno żyjące pawie, odwiedźcie ruiny klasztoru benedyktynów. Można tu znaleźć słone jezioro zwane 'Morzem Martwym' i słynny tron z 'Gry o Tron'." },
+                    { time: "Wieczór", icon: "🎭", theme: "bg-food", title: "Kulturalny Wieczór", description: "Po powrocie na Stare Miasto, zrelaksujcie się przy kolacji. Sprawdźcie repertuar lokalnych wydarzeń kulturalnych - może traficie na koncert lub przedstawienie." }
+                ]
+            },
+            {
+                day: 4,
+                date: "28 Września (Sobota)",
+                title: "Panorama z Góry Srđ",
+                pacing: 3,
+                activities: [
+                    { time: "Rano", icon: "🚠", theme: "bg-sun", title: "Wjazd Kolejką na Wzgórze Srđ", description: "Wjedźcie kolejką linową na szczyt wzgórza Srđ, aby podziwiać zapierającą dech w piersiach panoramę Dubrownika, wybrzeża i wysp. Na górze znajduje się też Muzeum Wojny Ojczyźnianej." },
+                    { time: "Południe", icon: "🏖️", theme: "bg-boat", title: "Odpoczynek na Plaży Lapad", description: "Zejdźcie/zjedźcie na dół i autobusem (np. linia 4 z Bramy Pile) udajcie się na półwysep Lapad. To bardziej nowoczesna część Dubrownika z pięknymi plażami i promenadą." },
+                    { time: "Wieczór", icon: "🍷", theme: "bg-food", title: "Kolacja w Zatoce Lapad", description: "Zatoka Lapad oferuje wiele doskonałych restauracji z widokiem na morze. To świetna alternatywa dla Starego Miasta." }
+                ]
+            },
+            {
+                day: 5,
+                date: "29 Września (Niedziela)",
+                title: "Wycieczka do Czarnogóry",
+                pacing: 5,
+                activities: [
+                    { time: "Cały Dzień", icon: "🇲🇪", theme: "bg-boat", title: "Zatoka Kotorska i Budva", description: "Całodniowa, zorganizowana wycieczka autokarowa do sąsiedniej Czarnogóry. Program zazwyczaj obejmuje malowniczą Zatokę Kotorską (wpisaną na listę UNESCO), zwiedzanie starego miasta w Kotorze oraz wizytę w nadmorskim kurorcie Budva." },
+                    { time: "Porada", icon: "🛂", theme: "bg-sun", title: "Praktyczne Informacje", description: "Pamiętajcie o zabraniu paszportów lub dowodów osobistych – przekraczacie granicę UE. Wycieczka trwa zwykle od rana do późnego wieczora." }
+                ]
+            },
+            {
+                day: 6,
+                date: "30 Września (Poniedziałek)",
+                title: "Dzień Relaksu i Plażowania",
+                pacing: 1,
+                activities: [
+                    { time: "Rano", icon: "☕", theme: "bg-sun", title: "Leniwy Poranek", description: "Po intensywnym dniu wycieczkowym, pozwólcie sobie na późne śniadanie i kawę w jednej z kawiarni na Starym Mieście." },
+                    { time: "Południe", icon: "🌊", theme: "bg-boat", title: "Plaża Banje lub Sveti Jakov", description: "Plaża Banje znajduje się tuż za murami miasta i oferuje wspaniały widok. Jeśli szukacie czegoś spokojniejszego, wybierzcie się na 20-minutowy spacer na plażę Sveti Jakov – jest uważana za jedną z najpiękniejszych w okolicy." },
+                    { time: "Wieczór", icon: "🍸", theme: "bg-food", title: "Drinki w Buza Bar", description: "Odnajdźcie jeden z barów Buza, wbudowanych w skały po zewnętrznej stronie murów miejskich. To idealne miejsce na drinka z widokiem na otwarte morze." }
+                ]
+            },
+            {
+                day: 7,
+                date: "1 Października (Wtorek)",
+                title: "Rejs po Wyspach Elafickich",
+                pacing: 4,
+                activities: [
+                    { time: "Cały Dzień", icon: "🏝️", theme: "bg-boat", title: "Trzy Wyspy: Koločep, Lopud, Šipan", description: "Wykupcie całodniowy rejs statkiem po archipelagu Wysp Elafickich. To świetny sposób na zobaczenie pięknych krajobrazów, pływanie w krystalicznie czystej wodzie i zjedzenie lunchu na pokładzie. Większość rejsów obejmuje wizytę na 3 wyspach." },
+                    { time: "Highlight", icon: "🏖️", theme: "bg-sun", title: "Plaża Šunj na Wyspie Lopud", description: "Jedną z głównych atrakcji rejsu jest piaszczysta plaża Šunj na wyspie Lopud. Idealne miejsce na relaks i kąpiel." }
+                ]
+            },
+            {
+                day: 8,
+                date: "2 Października (Środa)",
+                title: "Wycieczka do Mostaru",
+                pacing: 5,
+                activities: [
+                    { time: "Cały Dzień", icon: "🇧🇦", theme: "bg-boat", title: "Mostar i Počitelj", description: "Kolejna propozycja to całodniowa, zorganizowana wycieczka do Bośni i Hercegowiny. Główną atrakcją jest Mostar ze słynnym Starym Mostem (wpisanym na listę UNESCO) i orientalną starówką. Po drodze często odwiedza się też ufortyfikowane miasteczko Počitelj." },
+                    { time: "Porada", icon: "💰", theme: "bg-sun", title: "Praktyczne Informacje", description: "Pamiętajcie o dokumencie tożsamości. W Bośni walutą jest marka zamienna (BAM), ale w turystycznych miejscach jak Mostar często można płacić w Euro (choć reszta może być wydana w markach)." }
+                ]
+            },
+            {
+                day: 9,
+                date: "3 Października (Czwartek)",
+                title: "Urokliwe Miasto Cavtat",
+                pacing: 3,
+                activities: [
+                    { time: "Rano", icon: "🚌", theme: "bg-boat", title: "Podróż do Cavtatu", description: "Wsiądźcie w autobus nr 10 z głównego dworca autobusowego lub w statek z portu na Starym Mieście i udajcie się do Cavtatu. To malownicze miasteczko położone na południe od Dubrownika." },
+                    { time: "Południe", icon: "🖼️", theme: "bg-sun", title: "Spacer i Zwiedzanie", description: "Spacerujcie piękną promenadą, odwiedźcie Mauzoleum Rodziny Račić i dom Vlaho Bukovaca, jednego z najsłynniejszych chorwackich malarzy. Cavtat jest znacznie spokojniejszy niż Dubrownik." },
+                    { time: "Wieczór", icon: "🍝", theme: "bg-food", title: "Pożegnalna Kolacja w Dubrowniku", description: "Po powrocie do Dubrownika, wybierzcie wyjątkowe miejsce na pożegnalną kolację. Może to być restauracja z panoramicznym widokiem lub urokliwa konoba, która szczególnie przypadła Wam do gustu." }
+                ]
+            },
+            {
+                day: 10,
+                date: "4 Października (Piątek)",
+                title: "Dzień Wolny i Pamiątki",
+                pacing: 2,
+                activities: [
+                    { time: "Rano", icon: "🎁", theme: "bg-sun", title: "Zakup Pamiątek", description: "To dobry moment na zakup lokalnych produktów: lawendy, oliwy z oliwek, wina czy tradycyjnych słodyczy jak arancini. Targ na placu Gundulićeva poljana to świetne miejsce." },
+                    { time: "Południe", icon: "🔄", theme: "bg-boat", title: "Czas do Waszej Dyspozycji", description: "Powtórzcie to, co podobało Wam się najbardziej, albo odkryjcie coś nowego. Może to być wizyta w Klasztorze Franciszkanów z jedną z najstarszych aptek w Europie lub po prostu relaks w ulubionej kawiarni." },
+                    { time: "Wieczór", icon: "🧳", theme: "bg-food", title: "Pakowanie i Ostatni Spacer", description: "Spokojny wieczór, pakowanie i ostatni spacer po oświetlonym Starym Mieście, by pożegnać się z jego magiczną atmosferą." }
+                ]
+            },
+             {
+                day: 11,
+                date: "5 Października (Sobota)",
+                title: "Wyjazd",
+                pacing: 1,
+                activities: [
+                    { time: "Rano", icon: "🥐", theme: "bg-sun", title: "Ostatnie Chorwackie Śniadanie", description: "Zjedzcie ostatnie śniadanie, wypijcie kawę i cieszcie się ostatnimi chwilami w Dubrowniku." },
+                    { time: "Przed Południem", icon: "✈️", theme: "bg-boat", title: "Transfer na Lotnisko", description: "W zależności od godziny wylotu, udajcie się na lotnisko autobusem wahadłowym z Bramy Pile lub z głównego dworca autobusowego." }
+                ]
+            }
+        ];
+
+        const dayNavigation = document.getElementById('day-navigation');
+        const dayContent = document.getElementById('day-content');
+        let activeButton = null;
+
+        function renderDay(dayData) {
+            dayContent.innerHTML = `
+                <div class="p-4 animate-fade-in">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">${dayData.title}</h2>
+                    <p class="text-md text-gray-500 mb-6">${dayData.date}</p>
+                    <div class="space-y-6">
+                        ${dayData.activities.map(activity => `
+                            <div class="flex items-start gap-4">
+                                <div class="icon-box ${activity.theme} text-2xl">
+                                    <span>${activity.icon}</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-lg text-gray-800">${activity.title} <span class="text-sm font-normal text-gray-500">(${activity.time})</span></h3>
+                                    <p class="text-gray-700">${activity.description}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        tripData.forEach(day => {
+            const button = document.createElement('button');
+            button.className = 'nav-button px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base font-medium text-gray-700 bg-white rounded-lg shadow-sm border border-gray-200';
+            button.innerHTML = `<span class="hidden sm:inline">Dzień ${day.day}</span><span class="sm:hidden">${day.day}</span>`;
+            button.onclick = () => {
+                if (activeButton) {
+                    activeButton.classList.remove('active');
+                }
+                button.classList.add('active');
+                activeButton = button;
+                renderDay(day);
+            };
+            dayNavigation.appendChild(button);
+        });
+
+        const pacingCtx = document.getElementById('pacingChart').getContext('2d');
+        const pacingChart = new Chart(pacingCtx, {
+            type: 'bar',
+            data: {
+                labels: tripData.map(d => `Dzień ${d.day}`),
+                datasets: [{
+                    label: 'Poziom Intensywności',
+                    data: tripData.map(d => d.pacing),
+                    backgroundColor: 'rgba(229, 115, 115, 0.6)',
+                    borderColor: 'rgba(229, 115, 115, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                const labels = ['Brak', 'Relaks', 'Spokojny', 'Aktywny', 'Intensywny', 'Wycieczka'];
+                                return labels[value];
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                         callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                const value = context.parsed.y;
+                                const labels = ['Brak', 'Relaks', 'Spokojny', 'Aktywny', 'Intensywny', 'Całodniowa wycieczka'];
+                                label += labels[value];
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        window.onload = () => {
+            dayNavigation.children[0].click();
+        }
+    </script>
+</body>
+</html>
+
