@@ -76,9 +76,13 @@
             </section>
 
             <section id="itinerary" class="card p-4 sm:p-6">
-                <nav id="day-navigation" class="flex flex-wrap justify-center gap-2 mb-6">
+                <nav id="day-navigation" class="flex flex-wrap justify-center items-center gap-2 mb-6">
+                    <button id="show-all-btn" class="nav-button px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base font-medium text-gray-700 bg-white rounded-lg shadow-sm border border-gray-200">Cały Plan</button>
+                    <div class="w-px h-6 bg-gray-200 mx-2 hidden sm:block"></div>
                 </nav>
                 <div id="day-content" class="min-h-[400px]">
+                </div>
+                <div id="full-plan-content" class="hidden">
                 </div>
             </section>
 
@@ -232,6 +236,10 @@
         const dayContent = document.getElementById('day-content');
         let activeButton = null;
 
+        const showAllBtn = document.getElementById('show-all-btn');
+        const fullPlanContent = document.getElementById('full-plan-content');
+        const tripOverviewSection = document.getElementById('trip-overview');
+
         function renderDay(dayData) {
             dayContent.innerHTML = `
                 <div class="p-4 animate-fade-in">
@@ -254,11 +262,43 @@
             `;
         }
 
+        function renderFullPlan() {
+            fullPlanContent.innerHTML = `
+                <div class="p-4 animate-fade-in space-y-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Pełny Plan Podróży</h2>
+                    ${tripData.map(dayData => `
+                        <div class="border-t pt-6">
+                            <h3 class="text-2xl font-bold text-rose-500">${dayData.title}</h3>
+                            <p class="text-sm text-gray-500 mb-4">${dayData.date}</p>
+                            <div class="space-y-4">
+                                ${dayData.activities.map(activity => `
+                                    <div class="flex items-start gap-4">
+                                        <div class="icon-box ${activity.theme} text-2xl">
+                                            <span>${activity.icon}</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-bold text-md text-gray-800">${activity.title} <span class="text-sm font-normal text-gray-500">(${activity.time})</span></h4>
+                                            <p class="text-gray-700 text-sm">${activity.description}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
         tripData.forEach(day => {
             const button = document.createElement('button');
             button.className = 'nav-button px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base font-medium text-gray-700 bg-white rounded-lg shadow-sm border border-gray-200';
             button.innerHTML = `<span class="hidden sm:inline">Dzień ${day.day}</span><span class="sm:hidden">${day.day}</span>`;
             button.onclick = () => {
+                tripOverviewSection.classList.remove('hidden');
+                dayContent.classList.remove('hidden');
+                fullPlanContent.classList.add('hidden');
+                showAllBtn.classList.remove('active');
+
                 if (activeButton) {
                     activeButton.classList.remove('active');
                 }
@@ -268,6 +308,18 @@
             };
             dayNavigation.appendChild(button);
         });
+
+        showAllBtn.onclick = () => {
+            tripOverviewSection.classList.add('hidden');
+            dayContent.classList.add('hidden');
+            fullPlanContent.classList.remove('hidden');
+
+            if(activeButton) {
+                activeButton.classList.remove('active');
+                activeButton = null;
+            }
+            showAllBtn.classList.add('active');
+        };
 
         const pacingCtx = document.getElementById('pacingChart').getContext('2d');
         const pacingChart = new Chart(pacingCtx, {
@@ -322,7 +374,11 @@
         });
         
         window.onload = () => {
-            dayNavigation.children[0].click();
+            renderFullPlan();
+            const firstDayButton = dayNavigation.querySelector('button:not(#show-all-btn)');
+            if (firstDayButton) {
+                firstDayButton.click();
+            }
         }
     </script>
 </body>
