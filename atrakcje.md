@@ -129,4 +129,21 @@ Cavtat to nie tylko cel jednodniowej wycieczki z Dubrownika, ale również dosko
 * **Waluta i Płatności:** Oficjalną walutą jest euro. Większość miejsc akceptuje karty kredytowe. Kluczowa wskazówka dla turystów: podczas płatności kartą terminal często oferuje przewalutowanie na walutę macierzystą (np. PLN lub USD). Należy **zawsze odrzucać tę opcję** i wybierać płatność w lokalnej walucie (EUR). Pozwala to uniknąć bardzo niekorzystnych kursów wymiany i dodatkowych opłat narzucanych przez operatora terminala.30  
 * **Bezpieczeństwo:** Cavtat jest uważany za bardzo bezpieczne i spokojne miasto.30 Woda z kranu jest zdatna do picia na terenie całej Chorwacji.28
 
+### **1\. Atrakcja: Jednodniowa wycieczka do Mostaru**
+
+Mostar w Bośni i Hercegowinie to jeden z najpopularniejszych i najbardziej wartościowych celów jednodniowych wycieczek z regionu Dubrownika. To podróż do zupełnie innego kręgu kulturowego, gdzie wpływy orientalne i osmańskie są widoczne na każdym kroku.1  
+**Główne atrakcje w Mostarze:**
+
+* **Stari Most (Stary Most):** To ikona miasta i zabytek wpisany na listę UNESCO. XVI-wieczny osmański most został zniszczony podczas wojny w latach 90\. i starannie odbudowany. Jest symbolem pojednania i wielokulturowości.1 Tradycją jest oglądanie skoków lokalnych śmiałków do lodowatej rzeki Neretwy.2  
+* **Stary Bazar (Kujundžiluk):** Brukowane uliczki po obu stronach mostu tętnią życiem. Znajdziesz tu liczne warsztaty rzemieślnicze, sklepiki z pamiątkami, dywanami i tradycyjnymi miedzianymi naczyniami.2  
+* **Meczet Koski Mehmed-Paszy:** Zbudowany w XVII wieku meczet jest jednym z najpiękniejszych w mieście. Za niewielką opłatą można wejść do środka i wspiąć się na minaret, z którego roztacza się najlepszy panoramiczny widok na Stary Most i całe Stare Miasto.2
+
+Dodatkowe przystanki na trasie:  
+Wiele zorganizowanych wycieczek oraz osoby podróżujące samochodem często łączą wizytę w Mostarze z innymi atrakcjami Bośni i Hercegowiny 2:
+
+* **Wodospady Kravica:** Spektakularny zespół wodospadów na rzece Trebižat, często nazywany "małą Niagarą". W sezonie letnim można się tu kąpać w szmaragdowym jeziorze u podnóża kaskad.1  
+* **Počitelj:** Ufortyfikowane, średniowieczne miasteczko na wzgórzu z kamienną twierdzą i meczetem, wpisane na listę UNESCO. To idealne miejsce na krótki postój i podziwianie widoków na dolinę Neretwy.1
+
+**Wskazówka:** Pamiętaj, że podróż do Mostaru wiąże się z przekroczeniem granicy państwowej, dlatego **niezbędne jest posiadanie paszportu**.2
+
 ---
