@@ -101,5 +101,34 @@ System autobusów miejskich w Dubrowniku, obsługiwany przez firmę Libertas, je
 * **System Biletowy:** Bilety jednorazowe są ważne przez godzinę od skasowania. Istotna jest informacja, że bilet kupiony w kiosku (np. Tisak) jest tańszy i kosztuje 1.60 EUR, podczas gdy ten sam bilet zakupiony u kierowcy kosztuje 2 EUR.23 Dla Państwa planu, kluczowe będą przejazdy wliczone w 3-dniowy Dubrovnik Pass, które pokryją potrzeby transportowe w dniach intensywnego zwiedzania.  
 * **Kluczowe Linie Autobusowe:** Warto zapamiętać kilka numerów linii, które będą najbardziej przydatne:  
   * **Linia 4 (Pile – Hotel Palace)** i **Linia 6 (Pile – Babin Kuk):** Główne linie łączące Stare Miasto (przystanek przy Bramie Pile) z półwyspem Lapad, gdzie znajduje się wiele hoteli i pięknych terenów spacerowych.  
-  * **Linia 10 (Dubrovnik – Cavtat):** Linia podmiejska kluczowa dla jednodniowej wycieczki do Cavtatu.24  
+  * **Linia 10 (Dubrovnik – Cavtat):** Linia podmiejska kluczowa dla jednodniowej wycieczki do Cavtatu.24
+ 
+
+### **2.3.\. Użyteczne aplikacje mobilne**
+
+Aby ułatwić sobie poruszanie się, planowanie i codzienne funkcjonowanie podczas pobytu w Chorwacji, warto zainstalować kilka aplikacji:  
+**Transport:**
+
+* **Transport publiczny (Dubrownik):**  
+  * **Libertas App:** Oficjalna aplikacja lokalnego przewoźnika w Dubrowniku. Umożliwia sprawdzanie rozkładów jazdy, tras poszczególnych linii autobusowych oraz lokalizacji przystanków.5  
+* **Przejazdy (Ride-hailing):**  
+  * **Uber** i **Bolt:** Obie aplikacje działają w większych miastach, w tym w Dubrowniku. Są często tańszą i wygodniejszą alternatywą dla tradycyjnych taksówek.8  
+* **Promy i statki:**  
+  * **Jadrolinija:** Oficjalna aplikacja największego chorwackiego przewoźnika promowego. Umożliwia sprawdzanie rozkładów rejsów i warunków na morzu.9  
+  * **Ferryhopper:** Popularna aplikacja do wyszukiwania, porównywania i rezerwowania biletów promowych od różnych przewoźników w Chorwacji i basenie Morza Śródziemnego.10  
+* **Autobusy międzymiastowe:**  
+  * **FlixBus** i **Arriva Croatia:** Aplikacje do rezerwacji biletów na przejazdy autobusowe pomiędzy chorwackimi miastami i do krajów sąsiednich.8
+
+**Jedzenie i zakupy:**
+
+* **Wolt** i **Glovo:** Dwie najpopularniejsze aplikacje do zamawiania jedzenia z dostawą z szerokiej gamy restauracji w większych miastach.8
+
+**Wycieczki i atrakcje:**
+
+* **GetYourGuide:** Aplikacja do wyszukiwania i rezerwowania różnorodnych wycieczek, biletów wstępu do atrakcji i unikalnych doświadczeń, takich jak rejsy czy degustacje win.8
+
+**Inne przydatne aplikacje:**
+
+* **Google Translate:** Niezastąpione narzędzie, zwłaszcza z funkcją tłumaczenia za pomocą aparatu, która świetnie sprawdza się przy odczytywaniu menu w restauracjach czy etykiet w sklepach. Warto pobrać język chorwacki do użytku offline.8  
+* **Croatia Traffic Info – HAK:** Oficjalna aplikacja Chorwackiego Automobilklubu, bardzo przydatna dla osób podróżujących samochodem. Dostarcza informacji o stanie dróg, korkach, opłatach i lokalizacji stacji benzynowych.12
 * **Zasady Podróży:** W Chorwacji do autobusu wchodzi się przednimi drzwiami, pokazując bilet kierowcy lub kasując go w kasowniku.23 Przystanki są często "na żądanie", więc warto zasygnalizować chęć wysiadania z wyprzedzeniem.
